@@ -14,6 +14,12 @@ class ProjectsController < ApplicationController
       task_string: params[:project][:tasks]
     )
     @workflow.create
-    redirect_to projects_path
+    if @workflow.success?
+      redirect_to projects_path
+    else
+      # any information that was entered into the form will still display when the form is rerendered
+      @project = @workflow.project
+      render :new
+    end
   end
 end
